@@ -7,6 +7,7 @@ import {
 } from "aws-cdk-lib/pipelines"
 import { Stack, StackProps } from "aws-cdk-lib"
 import { Construct } from "constructs"
+import { WorkshopPipelineStage } from "./pipeline-stage"
 
 export class WorkshopPipelineStack extends Stack {
 	constructor(scope: Construct, id: string, props?: StackProps) {
@@ -24,5 +25,8 @@ export class WorkshopPipelineStack extends Stack {
 				commands: ["npm ci", "npm run build", "npx cdk synth"],
 			}),
 		})
+
+		const deploy = new WorkshopPipelineStage(this, "Deploy")
+		const deployStage = pipeline.addStage(deploy)
 	}
 }
